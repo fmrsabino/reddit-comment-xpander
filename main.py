@@ -28,11 +28,14 @@ def run():
                         context = int(params['context'][0])
                     except ValueError:
                         print("Context is not an int")
-                print(context)
                 if len(parts) == 6 and 'r' == parts[0] and 'comments' == parts[2]:
-                    comment = r.get_submission(update.message.text).comments[0]
-                    reply = "%s\nSubmitted by - %s\n%s" % (comment.body, comment.author.name, update.message.text)
-                    bot.send_message(update.message.chat, reply)
+                    try:
+                        comment = r.get_submission(update.message.text).comments[0]
+                        reply = "%s\nSubmitted by - %s\n%s" % (comment.body, comment.author.name, update.message.text)
+                        bot.send_message(update.message.chat, reply)
+                    except Exception as e:
+                        print("Unexpected error:", str(e))
+                    
 
 if __name__ == '__main__':
     warnings.simplefilter('ignore')
